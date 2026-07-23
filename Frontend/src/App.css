@@ -1,0 +1,216 @@
+/* App Global Styles & Animated Gradient Background */
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Animated Gradient Background */
+    background: linear-gradient(-45deg, #e0e7ff, #f3e8ff, #dbeafe, #ede9fe);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #1e293b;
+    overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.App {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content wrapper with entry animation */
+.main-content {
+    flex: 1;
+    width: 100%;
+    /* Page load slide-up effect */
+    animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Common Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+/* Gradient Page Title */
+.page-title {
+    text-align: center;
+    font-size: 42px;
+    margin: 50px 0 40px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    /* Gradient Text */
+    background: linear-gradient(135deg, #2563eb 0%, #9333ea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* Subtle drop shadow behind the gradient */
+    filter: drop-shadow(0px 4px 6px rgba(147, 51, 234, 0.2));
+}
+
+/* Primary Button - 3D Pop & Glow Effect */
+.primary-btn {
+    background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy pop */
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.primary-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(37, 99, 235, 0.5);
+}
+
+.primary-btn:active {
+    transform: translateY(2px) scale(0.95);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+/* Secondary Button - Glass Effect */
+.secondary-btn {
+    background: rgba(100, 116, 139, 0.1);
+    color: #334155;
+    border: 2px solid #cbd5e1;
+    padding: 12px 26px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(5px);
+}
+
+.secondary-btn:hover {
+    background: #64748b;
+    color: white;
+    border-color: #64748b;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(100, 116, 139, 0.3);
+}
+
+/* Card Common Design - Glassmorphism & 3D Tilt Hover */
+.common-card {
+    /* Glassmorphism */
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    /* Prepare for 3D */
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.common-card:hover {
+    /* 3D Tilt and Lift */
+    transform: translateY(-10px) rotateX(4deg) rotateY(-4deg);
+    box-shadow: 15px 25px 40px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 1);
+}
+
+/* Grid Layout with Perspective for 3D elements */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    perspective: 1000px; /* Gives depth to the children cards */
+}
+
+/* Status / State Messages */
+.loading {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 50px;
+    /* Animated loading text */
+    background: linear-gradient(90deg, #2563eb, #9333ea, #2563eb);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 2s linear infinite;
+}
+
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+.empty-message {
+    text-align: center;
+    color: #64748b;
+    font-size: 18px;
+    margin: 40px;
+    background: rgba(255,255,255,0.5);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px dashed #cbd5e1;
+}
+
+.error-message {
+    text-align: center;
+    color: #ef4444;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 30px;
+    background: rgba(254, 226, 226, 0.8);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 5px solid #ef4444;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive Design */
+@media(max-width: 768px){
+    .page-title {
+        font-size: 34px;
+        margin: 30px 0;
+    }
+    .container {
+        width: 92%;
+    }
+    .common-card:hover {
+        /* Reduce tilt on mobile for better UX */
+        transform: translateY(-5px);
+    }
+}
+
+@media(max-width: 480px){
+    .page-title {
+        font-size: 28px;
+    }
+    .card-grid {
+        gap: 20px;
+    }
+}

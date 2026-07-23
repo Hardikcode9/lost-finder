@@ -1,0 +1,68 @@
+.report-found{
+    min-height:100vh;
+    background:#eef4ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.report-found-card{
+    width:100%;
+    max-width:700px;
+    background:#fff;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.report-found-card h1{
+    text-align:center;
+    color:#1e40af;
+    margin-bottom:10px;
+}
+
+.report-found-card p{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+}
+
+.report-found-card form{
+    display:flex;
+    flex-direction:column;
+}
+
+.report-found-card label{
+    margin:12px 0 6px;
+    font-weight:600;
+}
+
+.report-found-card input,
+.report-found-card select,
+.report-found-card textarea{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.report-found-card textarea{
+    resize:vertical;
+}
+
+.report-found-card button{
+    margin-top:25px;
+    padding:14px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.report-found-card button:hover{
+    background:#1d4ed8;
+}

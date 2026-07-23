@@ -1,0 +1,90 @@
+.reports-page{
+
+    min-height:100vh;
+
+    background:#f8fafc;
+
+    padding:50px;
+
+}
+
+
+
+.reports-page h1{
+
+    text-align:center;
+
+    color:#1e3a8a;
+
+    font-size:40px;
+
+}
+
+
+
+.reports-subtitle{
+
+    text-align:center;
+
+    color:#666;
+
+    margin:15px 0 40px;
+
+    font-size:18px;
+
+}
+
+
+
+.reports-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+    gap:30px;
+
+    justify-items:center;
+
+}
+
+
+
+.report-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+
+
+.delete-btn{
+
+    background:#ef4444;
+
+    color:white;
+
+    border:none;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+
+
+.delete-btn:hover{
+
+    background:#dc2626;
+
+}

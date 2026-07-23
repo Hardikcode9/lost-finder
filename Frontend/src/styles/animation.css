@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(3deg); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(18px) rotate(-3deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; filter: blur(40px); }
+  50% { opacity: 0.8; filter: blur(60px); }
+}
+
+.animate-float-1 { animation: float-slow 6s ease-in-out infinite; }
+.animate-float-2 { animation: float-reverse 7s ease-in-out infinite; }
+.animate-glow { animation: pulse-glow 5s ease-in-out infinite; }
+
+.perspective-container { perspective: 1200px; }
+
+.tilt-card {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  transform-style: preserve-3d;
+}
+
+.tilt-card:hover {
+  transform: rotateX(4deg) rotateY(-4deg) translateZ(12px);
+  box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.35);
+}

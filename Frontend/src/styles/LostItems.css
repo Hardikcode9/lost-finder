@@ -1,0 +1,24 @@
+.lost-page{
+    padding:40px;
+    background:#f8fafc;
+    min-height:100vh;
+}
+
+.lost-page h1{
+    text-align:center;
+    color:#1e3a8a;
+    margin-bottom:30px;
+    font-size:40px;
+}
+
+.lost-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+    justify-items:center;
+    margin-top:40px;
+}
+
+.lost-grid h3{
+    color:#555;
+}

@@ -1,0 +1,107 @@
+.notfound-page{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #eff6ff,
+        #dbeafe
+    );
+
+    padding:20px;
+
+}
+
+
+
+.notfound-card{
+
+    width:100%;
+
+    max-width:500px;
+
+    background:white;
+
+    padding:40px;
+
+    text-align:center;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+}
+
+
+
+.error-code{
+
+    font-size:90px;
+
+    font-weight:700;
+
+    color:#2563eb;
+
+}
+
+
+
+.notfound-card h1{
+
+    color:#1e3a8a;
+
+    font-size:32px;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.notfound-card p{
+
+    color:#666;
+
+    line-height:1.6;
+
+    font-size:17px;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.home-btn{
+
+    display:inline-block;
+
+    padding:14px 30px;
+
+    background:#2563eb;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:8px;
+
+    font-size:17px;
+
+    transition:.3s;
+
+}
+
+
+
+.home-btn:hover{
+
+    background:#1d4ed8;
+
+}

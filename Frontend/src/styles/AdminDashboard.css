@@ -1,0 +1,226 @@
+.admin-page{
+
+    min-height:100vh;
+
+    background:#f8fafc;
+
+    padding:40px;
+
+}
+
+
+
+.admin-page h1{
+
+    text-align:center;
+
+    color:#1e3a8a;
+
+    font-size:40px;
+
+    margin-bottom:40px;
+
+}
+
+
+
+.stats-container{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:25px;
+
+}
+
+
+
+.stat-card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+
+
+.stat-card h2{
+
+    font-size:35px;
+
+    color:#2563eb;
+
+}
+
+
+
+.stat-card p{
+
+    color:#555;
+
+    font-size:18px;
+
+}
+
+
+
+.stat-card.lost h2{
+
+    color:#ef4444;
+
+}
+
+
+
+.stat-card.found h2{
+
+    color:#16a34a;
+
+}
+
+
+
+
+
+.manage-section{
+
+    margin-top:50px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+
+
+.manage-section h2{
+
+    color:#1e3a8a;
+
+    margin-bottom:25px;
+
+}
+
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+th,td{
+
+    padding:15px;
+
+    border-bottom:1px solid #ddd;
+
+    text-align:center;
+
+}
+
+
+
+th{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+
+.lost-tag,
+.found-tag{
+
+    padding:6px 14px;
+
+    border-radius:20px;
+
+    color:white;
+
+}
+
+
+
+.lost-tag{
+
+    background:#ef4444;
+
+}
+
+
+
+.found-tag{
+
+    background:#22c55e;
+
+}
+
+
+
+.delete{
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 15px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+
+
+.delete:hover{
+
+    background:#b91c1c;
+
+}
+
+
+
+@media(max-width:768px){
+
+.admin-page{
+
+    padding:20px;
+
+}
+
+
+table{
+
+    font-size:14px;
+
+    display:block;
+
+    overflow-x:auto;
+
+}
+
+}

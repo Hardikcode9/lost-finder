@@ -1,0 +1,38 @@
+.items-section{
+    padding:60px 50px;
+    background:#f9fafb;
+}
+
+.items-section h2{
+    text-align:center;
+    font-size:36px;
+    color:#1e3a8a;
+    margin-bottom:40px;
+}
+
+.items-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+    justify-items:center;
+}
+
+.no-items{
+    grid-column:1/-1;
+    text-align:center;
+    color:#666;
+    font-size:20px;
+    padding:40px;
+}
+
+@media(max-width:768px){
+
+.items-section{
+    padding:40px 20px;
+}
+
+.items-section h2{
+    font-size:28px;
+}
+
+}
