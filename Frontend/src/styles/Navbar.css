@@ -1,304 +1,149 @@
-/* Navbar Main */
-
+/* Navbar Main - Deep Slate Background */
 .navbar {
-
-    width:100%;
-
-    background:#1e3a8a;
-
-    color:white;
-
-    position:sticky;
-
-    top:0;
-
-    z-index:1000;
-
-    box-shadow:
-    0 4px 10px rgba(0,0,0,0.15);
-
+    width: 100%;
+    background: #424C55; 
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
-
-
 
 /* Container */
-
 .navbar-container {
-
-    max-width:1200px;
-
-    margin:auto;
-
-    padding:15px 25px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
 }
-
-
 
 /* Logo */
-
 .logo {
-
-    font-size:28px;
-
-    font-weight:700;
-
-    color:white;
-
-    text-decoration:none;
-
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+    /* This pushes the logo to the left, and everything else to the right */
+    margin-right: auto; 
 }
-
-
 
 .logo span {
-
-    color:#60a5fa;
-
+    color: #60a5fa; 
 }
-
-
-
-
 
 /* Navigation Links */
-
 .nav-links {
-
-    display:flex;
-
-    align-items:center;
-
-    gap:20px;
-
+    display: flex;
+    align-items: center; /* Forces vertical centering */
+    gap: 25px;
 }
-
-
 
 .nav-links a {
-
-    color:white;
-
-    text-decoration:none;
-
-    font-size:15px;
-
-    font-weight:500;
-
-    transition:.3s;
-
-    padding:8px 5px;
-
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 8px 5px;
 }
 
-
-
-
-
-/* Hover */
-
-.nav-links a:hover {
-
-    color:#93c5fd;
-
-}
-
-
-
-
-
-/* Active Link */
-
+/* Hover & Active states */
+.nav-links a:hover,
 .nav-links a.active {
-
-    color:#60a5fa;
-
-    border-bottom:2px solid #60a5fa;
-
+    color: #ffffff;
+    transform: translateY(-2px);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
 }
 
-
-
-
-
-/* Authentication Buttons */
-
+/* Authentication Buttons Container */
 .auth-buttons {
-
-    display:flex;
-
-    gap:10px;
-
-    margin-left:10px;
-
+    display: flex;
+    align-items: center; /* Forces vertical centering */
+    margin-left: 20px; 
 }
 
-
-
-
-
+/* Logout Button - Ghost Style */
 .login-btn {
-
-    background:transparent;
-
-    border:1px solid white;
-
-    padding:8px 18px !important;
-
-    border-radius:8px;
-
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    padding: 7px 18px;
+    border-radius: 8px;
+    font-size: 15px; /* Matches the nav links font size */
+    font-family: inherit; /* Forces it to use your global font so text baselines match */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0; /* Kills hidden browser margins */
+    display: inline-flex;
+    align-items: center; /* Keeps the text centered inside the button */
+    justify-content: center;
 }
-
-
-
-
-
-.signup-btn {
-
-    background:#2563eb;
-
-    padding:8px 18px !important;
-
-    border-radius:8px;
-
-}
-
-
-
-
 
 .login-btn:hover {
-
-    background:white;
-
-    color:#1e3a8a !important;
-
+    background: #ffffff;
+    color: #424C55;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
 }
 
-
-
-
-
-.signup-btn:hover {
-
-    background:#60a5fa;
-
-    color:white !important;
-
+.login-btn:active {
+    transform: translateY(0);
 }
 
-
-
-
-
-/* Mobile Menu Button */
-
+/* Mobile Menu Button - Hidden on Desktop */
 .menu-btn {
-
-    display:none;
-
-    background:none;
-
-    color:white;
-
-    border:none;
-
-    font-size:28px;
-
-    cursor:pointer;
-
+    display: none;
+    background: none;
+    color: #ffffff;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
 }
 
-
-
-
-
-/* Responsive Design */
-
-@media(max-width:1000px){
-
+/* ==========================================
+   Responsive Design for Mobile
+   ========================================== */
+@media(max-width: 1000px){
+    .navbar-container {
+        justify-content: space-between;
+    }
+    
+    .logo {
+        margin-right: 0;
+    }
 
     .menu-btn {
-
-        display:block;
-
+        display: block; /* Show hamburger menu */
     }
-
-
-
-    .nav-links {
-
-
-        position:absolute;
-
-        top:70px;
-
-        left:0;
-
-        width:100%;
-
-        background:#1e3a8a;
-
-
-        flex-direction:column;
-
-        align-items:center;
-
-        padding:25px 0;
-
-
-        display:none;
-
-    }
-
-
-
-    .nav-links.active {
-
-        display:flex;
-
-    }
-
-
 
     .auth-buttons {
-
-        flex-direction:column;
-
-        margin-top:10px;
-
-        width:150px;
-
-        text-align:center;
-
+        display: none; /* Hide logout button on mobile header, we'll put it in the menu */
     }
 
-
-}
-
-
-
-@media(max-width:500px){
-
-
-    .logo {
-
-        font-size:24px;
-
+    /* Mobile Dropdown Menu */
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #424C55;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        flex-direction: column;
+        align-items: center;
+        padding: 25px 0;
+        display: none;
     }
 
-
-    .navbar-container {
-
-        padding:15px;
-
+    .nav-links.active {
+        display: flex;
+        animation: slideDown 0.3s ease forwards;
     }
 
-
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 }

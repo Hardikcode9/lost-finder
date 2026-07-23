@@ -1,171 +1,64 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import "../styles/Navbar.css";
-
+import { Link, NavLink, useNavigate } from "react-router-dom"; 
+import "../styles/Navbar.css"; // (Or whatever your correct CSS path was from the last step!)
 
 function Navbar() {
+  const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  // Check if the user is currently logged in
+  const token = localStorage.getItem("token");
 
-
-  const closeMenu = () => {
-    setMenuOpen(false);
+  // Handle logging out
+  const handleLogout = () => {
+    // 1. Remove the token and user data from the browser
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    
+    // 2. Redirect back to the login page
+    navigate("/login");
   };
 
-
   return (
-
     <nav className="navbar">
-
-
       <div className="navbar-container">
-
-
-        {/* Logo */}
-
-        <NavLink 
-          to="/"
-          className="logo"
-          onClick={closeMenu}
-        >
+        
+        {/* The Logo is always visible to everyone */}
+        <Link to="/" className="logo">
           Lost<span>Finder</span>
-        </NavLink>
+        </Link>
 
-
-
-
-        {/* Mobile Menu Button */}
-
-        <button
-          className="menu-btn"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-
-
-
-
-
-        {/* Navigation Links */}
-
-        <div
-          className={
-            menuOpen 
-            ? "nav-links active"
-            : "nav-links"
-          }
-        >
-
-
-          <NavLink
-            to="/"
-            onClick={closeMenu}
-          >
-            Home
-          </NavLink>
-
-
-
-          <NavLink
-            to="/lost-items"
-            onClick={closeMenu}
-          >
-            Lost Items
-          </NavLink>
-
-
-
-          <NavLink
-            to="/found-items"
-            onClick={closeMenu}
-          >
-            Found Items
-          </NavLink>
-
-
-
-
-          <NavLink
-            to="/report-lost"
-            onClick={closeMenu}
-          >
-            Report Lost
-          </NavLink>
-
-
-
-
-          <NavLink
-            to="/report-found"
-            onClick={closeMenu}
-          >
-            Report Found
-          </NavLink>
-
-
-
-
-
-          <NavLink
-            to="/profile"
-            onClick={closeMenu}
-          >
-            Profile
-          </NavLink>
-
-
-
-
-
-          <NavLink
-            to="/admin-dashboard"
-            onClick={closeMenu}
-          >
-            Admin
-          </NavLink>
-
-
-
-
-
-          <div className="auth-buttons">
-
-
-            <NavLink
-              to="/login"
-              className="login-btn"
-              onClick={closeMenu}
+        {/* The rest of the Navbar ONLY renders if the user is logged in */}
+        {token && (
+          <>
+            <button 
+              className="menu-btn" 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              Login
-            </NavLink>
+              ☰
+            </button>
 
+            <div className={`nav-links ${isMobileMenuOpen ? "active" : ""}`}>
+              <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
+              <NavLink to="/lost-items" onClick={() => setIsMobileMenuOpen(false)}>Lost Items</NavLink>
+              <NavLink to="/found-items" onClick={() => setIsMobileMenuOpen(false)}>Found Items</NavLink>
+              <NavLink to="/report-lost" onClick={() => setIsMobileMenuOpen(false)}>Report Lost</NavLink>
+              <NavLink to="/report-found" onClick={() => setIsMobileMenuOpen(false)}>Report Found</NavLink>
+              <NavLink to="/profile" onClick={() => setIsMobileMenuOpen(false)}>Profile</NavLink>
+              <NavLink to="/admin-dashboard" onClick={() => setIsMobileMenuOpen(false)}>Admin</NavLink>
+            </div>
 
-
-            <NavLink
-              to="/signup"
-              className="signup-btn"
-              onClick={closeMenu}
-            >
-              Signup
-            </NavLink>
-
-
-          </div>
-
-
-
-        </div>
-
+            <div className="auth-buttons">
+              <button onClick={handleLogout} className="login-btn">
+                Logout
+              </button>
+            </div>
+          </>
+        )}
 
       </div>
-
-
     </nav>
-
   );
-
 }
-
 
 export default Navbar;
