@@ -2,110 +2,62 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/ItemCard.css";
 
-
 function ItemCard({ item }) {
-
-
   return (
-
     <div className="item-card">
-
-
       {/* Item Image */}
-
       <div className="item-image">
-
         <img
-          src={item.image}
+          src={
+            item.image
+              ? `http://192.168.0.100:5000/uploads/s${item.image}`
+              : "/no-image.png"
+          }
           alt={item.title}
+          onError={(e) => {
+            e.target.src = "/no-image.png";
+          }}
         />
-
       </div>
 
-
-
-
       {/* Item Content */}
-
       <div className="item-content">
-
-
         <div className="item-header">
-
-
-          <h2>
-            {item.title}
-          </h2>
-
-
+          <h2>{item.title}</h2>
 
           <span
             className={
-              item.status === "Lost"
-              ? "lost-badge"
-              : "found-badge"
+              item.type === "Lost"
+                ? "lost-badge"
+                : "found-badge"
             }
           >
-            {item.status}
+            {item.type}
           </span>
-
-
         </div>
 
-
-
-
-
         <p>
-          <strong>
-            Category:
-          </strong>{" "}
-          {item.category}
+          <strong>Category:</strong> {item.category}
         </p>
 
-
-
-
         <p>
-          <strong>
-            Location:
-          </strong>{" "}
-          {item.location}
+          <strong>Location:</strong> {item.location}
         </p>
 
-
-
-
         <p>
-          <strong>
-            Date:
-          </strong>{" "}
-          {item.date}
+          <strong>Date:</strong>{" "}
+          {new Date(item.date).toLocaleDateString()}
         </p>
-
-
-
-
-
 
         <Link
-          to={`/item/${item.id}`}
+          to={`/item/${item._id}`}
           className="details-btn"
         >
           View Details
         </Link>
-
-
-
-
       </div>
-
-
     </div>
-
   );
-
 }
 
-
-export default ItemCard;
+export default ItemCard;  

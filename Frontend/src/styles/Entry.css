@@ -1,0 +1,307 @@
+/* ===========================
+   ROOT VARIABLES (Syncs with Theme)
+=========================== */
+:root {
+  --neon-cyan: #00f2fe;
+  --neon-purple: #4facfe;
+  --neon-pink: #fa709a;
+  --dark-bg: #0b0f19;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+}
+
+/* ===========================
+   FULL SCREEN CANVAS
+=========================== */
+.entry-canvas {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Background Glowing Orbs */
+.entry-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  animation: floatOrb 15s infinite alternate ease-in-out;
+}
+
+.orb-cyan {
+  width: 450px;
+  height: 450px;
+  background: rgba(0, 242, 254, 0.25);
+  top: -10%;
+  left: -5%;
+}
+
+.orb-pink {
+  width: 400px;
+  height: 400px;
+  background: rgba(250, 112, 154, 0.2);
+  bottom: -10%;
+  right: -5%;
+  animation-delay: -5s;
+}
+
+.orb-purple {
+  width: 300px;
+  height: 300px;
+  background: rgba(139, 92, 246, 0.25);
+  top: 40%;
+  left: 40%;
+  animation-delay: -10s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 90px) scale(1.15); }
+  100% { transform: translate(-40px, 50px) scale(0.85); }
+}
+
+/* ===========================
+   3D PERSPECTIVE WRAPPER
+=========================== */
+.entry-perspective-wrapper {
+  perspective: 1500px; /* Crucial for the 3D mouse tracking tilt to work */
+  z-index: 10;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* ===========================
+   GLASSMORPHISM CARD
+=========================== */
+.entry-card {
+  background: rgba(15, 20, 31, 0.65);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+  padding: 70px 50px;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
+  
+  /* 3D Properties */
+  transform-style: preserve-3d;
+  will-change: transform;
+  
+  /* Entrance Animation */
+  opacity: 0;
+  animation: cardEntrance 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(60px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Simulated Glare effect that moves with the tilt */
+.entry-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+  transform: skewX(-25deg);
+  animation: shine 6s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0%, 20% { left: -100%; }
+  40%, 100% { left: 200%; }
+}
+
+/* ===========================
+   TYPOGRAPHY
+=========================== */
+.entry-logo {
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--text-main);
+  margin-bottom: 20px;
+  transform: translateZ(40px); /* Lifts logo off the card in 3D */
+}
+
+.neon-text {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.entry-card h1 {
+  font-size: 46px;
+  line-height: 1.25;
+  color: var(--text-main);
+  font-weight: 800;
+  margin-bottom: 25px;
+  transform: translateZ(30px); /* Lifts text off the card */
+}
+
+.highlight-text {
+  background: linear-gradient(to right, #ffffff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.entry-card p {
+  margin: 0 auto 45px;
+  max-width: 580px;
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  transform: translateZ(20px);
+}
+
+/* ===========================
+   FLOATING ICONS
+=========================== */
+.floating-icons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 50px;
+  font-size: 38px;
+  transform: translateZ(50px); /* Lifts icons very high off the card */
+}
+
+.float-icon {
+  display: inline-block;
+  animation: bounceFloat 3s ease-in-out infinite alternate;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+}
+
+/* Stagger the animations so they don't bounce at the same time */
+.i1 { animation-delay: 0s; }
+.i2 { animation-delay: -0.5s; }
+.i3 { animation-delay: -1s; }
+.i4 { animation-delay: -1.5s; }
+.i5 { animation-delay: -2s; }
+.i6 { animation-delay: -2.5s; }
+
+@keyframes bounceFloat {
+  0% { transform: translateY(0) rotate(-5deg); }
+  100% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+.entry-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  transform: translateZ(40px); /* Lift buttons */
+}
+
+.btn-primary, .btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none;
+}
+
+.btn-icon {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+/* Primary Neon Gradient Button */
+.gradient-btn {
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+  color: white;
+  border: none;
+  box-shadow: 0 10px 25px rgba(250, 112, 154, 0.3);
+}
+
+.gradient-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(250, 112, 154, 0.5);
+}
+
+.gradient-btn:hover .btn-icon {
+  transform: translateX(5px);
+}
+
+/* Secondary Glowing Outline Button */
+.neon-outline-btn {
+  background: rgba(0, 242, 254, 0.05);
+  color: var(--neon-cyan);
+  border: 2px solid rgba(0, 242, 254, 0.5);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1) inset;
+  backdrop-filter: blur(10px);
+}
+
+.neon-outline-btn:hover {
+  background: var(--neon-cyan);
+  color: var(--dark-bg);
+  box-shadow: 0 10px 30px rgba(0, 242, 254, 0.4);
+  transform: translateY(-5px) scale(1.05);
+}
+
+.neon-outline-btn:hover .btn-icon {
+  transform: translateX(5px);
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 850px) {
+  .entry-card {
+    padding: 50px 30px;
+  }
+  .entry-card h1 {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 550px) {
+  .entry-perspective-wrapper {
+    perspective: none; /* Disable 3D tilt on mobile for performance */
+  }
+  
+  .entry-card {
+    padding: 40px 20px;
+    transform: none !important; /* Force reset JS tilt on small screens */
+  }
+  
+  .entry-logo {
+    font-size: 42px;
+  }
+  
+  .entry-card h1 {
+    font-size: 32px;
+  }
+  
+  .floating-icons {
+    font-size: 30px;
+    gap: 15px;
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    padding: 18px;
+  }
+  
+  /* Strip transforms on mobile so everything sits flat */
+  .entry-logo, .entry-card h1, .entry-card p, .floating-icons, .entry-buttons {
+    transform: none;
+  }
+}

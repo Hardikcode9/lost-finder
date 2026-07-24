@@ -1,0 +1,350 @@
+/* ===========================
+   ROOT VARIABLES (Edit Theme)
+=========================== */
+:root {
+  --neon-blue: #3b82f6;
+  --neon-cyan: #00f2fe;
+  --neon-purple: #8b5cf6;
+  --dark-bg: #0b0f19;
+  --glass-bg: rgba(15, 20, 31, 0.75);
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+}
+
+/* ===========================
+   FULL SCREEN CANVAS
+=========================== */
+.edit-canvas {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden;
+  padding: 120px 24px 80px; 
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-main);
+}
+
+.center-content {
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.spinner-icon {
+  font-size: 50px;
+  color: var(--neon-blue);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Background Glowing Orbs */
+.edit-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  animation: floatOrb 15s infinite alternate ease-in-out;
+}
+
+.orb-blue {
+  width: 500px; height: 500px;
+  background: rgba(59, 130, 246, 0.15);
+  top: -5%; left: -5%;
+}
+
+.orb-purple {
+  width: 450px; height: 450px;
+  background: rgba(139, 92, 246, 0.15);
+  bottom: -10%; right: -5%;
+  animation-delay: -5s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 80px) scale(1.1); }
+  100% { transform: translate(-30px, 40px) scale(0.9); }
+}
+
+.edit-container {
+  width: 100%;
+  max-width: 750px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ===========================
+   GLASSMORPHISM CARD
+=========================== */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+.edit-card {
+  border-radius: 30px;
+  padding: 50px 45px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+/* Back Button */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.back-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-5px);
+}
+
+/* ===========================
+   HEADER TYPOGRAPHY
+=========================== */
+.edit-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.edit-header h1 {
+  font-size: 34px;
+  color: var(--text-main);
+  font-weight: 800;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.header-icon { color: var(--neon-blue); }
+
+.neon-text-blue {
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.edit-header p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+/* ===========================
+   FORM & INPUTS
+=========================== */
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.input-group label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 18px;
+  color: var(--neon-blue);
+  font-size: 16px;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.report-form input:not([type="file"]),
+.report-form select,
+.report-form textarea {
+  width: 100%;
+  padding: 16px 20px 16px 48px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: var(--text-main);
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  appearance: none;
+}
+
+.textarea-wrapper { align-items: flex-start; }
+.textarea-icon { top: 18px; }
+
+.report-form textarea { resize: vertical; min-height: 120px; }
+
+.report-form input::placeholder,
+.report-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.report-form input:focus,
+.report-form select:focus,
+.report-form textarea:focus {
+  outline: none;
+  border-color: var(--neon-blue);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.input-wrapper:focus-within .input-icon {
+  color: var(--neon-cyan);
+  transform: scale(1.1);
+}
+
+.report-form select option {
+  background: var(--dark-bg);
+  color: var(--text-main);
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* ===========================
+   CUSTOM FILE INPUT
+=========================== */
+.file-wrapper {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  transition: 0.3s;
+}
+
+.file-wrapper:hover {
+  border-color: var(--neon-blue);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.file-input {
+  width: 100%;
+  padding: 14px 14px 14px 48px;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.file-input::file-selector-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.file-input::file-selector-button:hover {
+  background: var(--neon-blue);
+  border-color: var(--neon-blue);
+}
+
+/* ===========================
+   SUBMIT BUTTON
+=========================== */
+.submit-btn {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gradient-btn-blue {
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  color: white;
+  border: none;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.gradient-btn-blue:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.5);
+}
+
+.gradient-btn-blue:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.gradient-btn-blue:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+  box-shadow: none;
+}
+
+.btn-icon {
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.submit-btn:hover:not(:disabled) .btn-icon {
+  transform: translate(4px, -4px); 
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 650px) {
+  .edit-canvas { padding: 100px 16px 60px; }
+  .edit-card { padding: 40px 25px; border-radius: 24px; }
+  .edit-header h1 { font-size: 28px; }
+  .form-row { grid-template-columns: 1fr; gap: 22px; }
+}

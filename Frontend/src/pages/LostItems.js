@@ -1,49 +1,36 @@
-import React, { useState } from "react";
-import SearchBar from "../components/SearchBar";
-import ItemCard from "../components/ItemCard";
+import React, { useEffect, useState } from "react";
+import api from "../services/api";
+import { Link } from "react-router-dom";
+import { 
+  FaSearch, 
+  FaMapMarkerAlt, 
+  FaCalendarAlt, 
+  FaArrowRight, 
+  FaSearchLocation,
+  FaSadTear
+} from "react-icons/fa";
 import "../styles/LostItems.css";
 
 function LostItems() {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const lostItems = [
-    {
-      id: 1,
-      title: "Blue Backpack",
-      category: "Bag",
-      location: "Central Library",
-      date: "19 July 2026",
-      status: "Lost",
-      image: "https://via.placeholder.com/300x220?text=Backpack",
-    },
-    {
-      id: 2,
-      title: "HP Laptop",
-      category: "Laptop",
-      location: "Computer Lab",
-      date: "18 July 2026",
-      status: "Lost",
-      image: "https://via.placeholder.com/300x220?text=Laptop",
-    },
-    {
-      id: 3,
-      title: "House Keys",
-      category: "Keys",
-      location: "Parking Area",
-      date: "17 July 2026",
-      status: "Lost",
-      image: "https://via.placeholder.com/300x220?text=Keys",
-    },
-    {
-      id: 4,
-      title: "Black Wallet",
-      category: "Wallet",
-      location: "Canteen",
-      date: "16 July 2026",
-      status: "Lost",
-      image: "https://via.placeholder.com/300x220?text=Wallet",
-    },
-  ];
+  useEffect(() => {
+  fetchLostItems();
+}, []);
+
+  const fetchLostItems = async () => {
+    try {
+      const response = await api.get("/items?type=Lost");
+
+      if (response.data.success) {
+        setLostItems(response.data.items);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [lostItems, setLostItems] = useState([]);
 
   const filteredItems = lostItems.filter(
     (item) =>
@@ -53,22 +40,102 @@ function LostItems() {
   );
 
   return (
-    <div className="lost-page">
-      <h1>Lost Items</h1>
+    <div className="lost-canvas">
+      {/* Animated Background Orbs */}
+      <div className="lost-orb orb-red"></div>
+      <div className="lost-orb orb-purple"></div>
 
-      <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+      <div className="lost-page-content">
+        
+        {/* Header Section */}
+        <div className="lost-header fade-up">
+          <h1>
+            <FaSearchLocation className="header-icon" /> 
+            Active <span className="neon-text-red">Lost Items</span>
+          </h1>
+          <p>Help your peers by checking if you have seen any of these missing belongings across the campus.</p>
+        </div>
 
-      <div className="lost-grid">
-        {filteredItems.length > 0 ? (
-          filteredItems.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))
-        ) : (
-          <h3>No Lost Items Found</h3>
-        )}
+        {/* Glassmorphism Search Bar */}
+        <div className="search-container fade-up" style={{ "--delay": "0.1s" }}>
+          <div className="search-wrapper glass-panel">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search by item name, category, or location..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+              <button className="clear-search" onClick={() => setSearchTerm("")}>
+                &times;
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* 3D Item Grid */}
+        <div className="lost-grid">
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item, index) => (
+              <div 
+                className="item-card glass-panel fade-up-stagger" 
+                key={item._id}
+                style={{ "--delay": `${0.2 + (index * 0.1)}s` }}
+              >
+                <div className="card-image">
+                <img
+                  src={
+                    item.image
+                      ? `http://192.168.0.100:5000/uploads/${item.image}`
+                      : "/no-image.png"
+                  }
+                  alt={item.title}
+                  onError={(e) => {
+                    e.target.src = "/no-image.png";
+                  }}
+                />
+                  <span className="badge-lost glass-badge">Missing</span>
+                </div>
+
+                <div className="card-body">
+                  <span className="category-label">{item.category}</span>
+                  <h3>{item.title}</h3>
+
+                  <div className="card-info">
+                    <p>
+                      <span className="info-icon-box"><FaMapMarkerAlt /></span> 
+                      {item.location}
+                    </p>
+                    <p>
+                      <span className="info-icon-box"><FaCalendarAlt /></span> 
+                      {new Date(item.date).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  <Link to={`/item/${item._id}`} className="details-btn gradient-btn-red">
+                    <span>Report as Found</span>
+                    <FaArrowRight className="btn-arrow" />
+                  </Link>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="empty-message glass-panel fade-up" style={{ "--delay": "0.2s" }}>
+              <FaSadTear className="empty-icon" />
+              <h3>No matching items found</h3>
+              <p>We couldn't find any lost items matching "{searchTerm}".</p>
+              <button 
+                className="gradient-btn-red clear-btn" 
+                onClick={() => setSearchTerm("")}
+              >
+                Clear Search
+              </button>
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   );

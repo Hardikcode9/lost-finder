@@ -8,24 +8,24 @@ const Item = require("../models/Item");
 const createItem = async (req, res) => {
   try {
     const {
-      itemName,
+      title,
       description,
       category,
       type,
       location,
       date,
-      contactNumber,
+      contact,
     } = req.body;
 
     const item = await Item.create({
       user: req.user._id,
-      itemName,
+      title,
       description,
       category,
       type,
       location,
       date,
-      contactNumber,
+      contact,
       image: req.file ? req.file.filename : "",
     });
 
@@ -62,10 +62,32 @@ const getAllItems = async (req, res) => {
     }
 
     if (search) {
-      filter.itemName = {
-        $regex: search,
-        $options: "i",
-      };
+      filter.$or = [
+        {
+          title: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          description: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          location: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          category: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
     }
 
     const items = await Item.find(filter)
@@ -163,9 +185,17 @@ const updateItem = async (req, res) => {
       });
     }
 
+    const updatedData = {
+      ...req.body,
+    };
+
+    if (req.file) {
+      updatedData.image = req.file.filename;
+    }
+
     const updatedItem = await Item.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updatedData,
       {
         new: true,
         runValidators: true,

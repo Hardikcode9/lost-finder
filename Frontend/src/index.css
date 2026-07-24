@@ -6,16 +6,19 @@
 
 
 body{
+    font-family:"Poppins",Arial,sans-serif;
 
-    font-family:
-    "Poppins",
-    Arial,
-    sans-serif;
-
-    background:#9DB5B2;
+    background:
+    linear-gradient(
+        135deg,
+        #eef4ff 0%,
+        #f8fbff 45%,
+        #f2efff 100%
+    );
 
     color:#333;
 
+    min-height:100vh;
 }
 
 

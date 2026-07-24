@@ -1,69 +1,331 @@
-.report-lost{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#f3f4f6;
-    padding:40px 20px;
+/* ===========================
+   ROOT VARIABLES (Lost Theme)
+=========================== */
+:root {
+  --neon-red: #ff4b2b;
+  --neon-orange: #ff416c;
+  --dark-bg: #0b0f19;
+  --glass-bg: rgba(15, 20, 31, 0.75);
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
 }
 
-.report-card{
-    width:100%;
-    max-width:700px;
-    background:#fff;
-    padding:35px;
-    border-radius:12px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+/* ===========================
+   FULL SCREEN CANVAS
+=========================== */
+.report-canvas {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden;
+  /* Top padding clears fixed Navbar */
+  padding: 120px 24px 80px; 
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-main);
 }
 
-.report-card h1{
-    text-align:center;
-    color:#1e40af;
-    margin-bottom:10px;
+/* Background Glowing Orbs */
+.report-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  animation: floatOrb 15s infinite alternate ease-in-out;
 }
 
-.report-card p{
-    text-align:center;
-    color:#666;
-    margin-bottom:30px;
+.orb-red {
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 65, 108, 0.15);
+  top: -5%;
+  left: -5%;
 }
 
-form{
-    display:flex;
-    flex-direction:column;
+.orb-orange {
+  width: 450px;
+  height: 450px;
+  background: rgba(255, 75, 43, 0.15);
+  bottom: -10%;
+  right: -5%;
+  animation-delay: -5s;
 }
 
-label{
-    margin:12px 0 6px;
-    font-weight:600;
-    color:#333;
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 80px) scale(1.1); }
+  100% { transform: translate(-30px, 40px) scale(0.9); }
 }
 
-input,
-select,
-textarea{
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:16px;
+/* ===========================
+   GLASSMORPHISM CARD
+=========================== */
+.report-card {
+  width: 100%;
+  max-width: 750px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 50px 45px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+  z-index: 10;
 }
 
-textarea{
-    resize:vertical;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-button{
-    margin-top:25px;
-    padding:14px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:18px;
-    cursor:pointer;
-    transition:0.3s;
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
-button:hover{
-    background:#1d4ed8;
+/* ===========================
+   HEADER TYPOGRAPHY
+=========================== */
+.report-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.report-header h1 {
+  font-size: 34px;
+  color: var(--text-main);
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.neon-text-red {
+  background: linear-gradient(to right, var(--neon-red), var(--neon-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.report-header p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+/* ===========================
+   FORM & INPUTS
+=========================== */
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* 2-Column Grid for shorter inputs */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.input-group label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 18px;
+  color: var(--neon-red);
+  font-size: 16px;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+/* Base input styling for text, date, select, textarea */
+.report-form input:not([type="file"]),
+.report-form select,
+.report-form textarea {
+  width: 100%;
+  padding: 16px 20px 16px 48px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: var(--text-main);
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  appearance: none; /* Removes default select styling */
+}
+
+/* Align textarea icon to top */
+.textarea-wrapper {
+  align-items: flex-start;
+}
+.textarea-icon {
+  top: 18px;
+}
+
+.report-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.report-form input::placeholder,
+.report-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.report-form input:focus,
+.report-form select:focus,
+.report-form textarea:focus {
+  outline: none;
+  border-color: var(--neon-red);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 65, 108, 0.15);
+}
+
+/* Highlight icon when focused */
+.input-wrapper:focus-within .input-icon {
+  color: var(--neon-orange);
+  transform: scale(1.1);
+}
+
+/* Custom styling for standard select dropdown menu */
+.report-form select option {
+  background: var(--dark-bg);
+  color: var(--text-main);
+}
+
+/* Calendar icon color inside input[type="date"] */
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* ===========================
+   CUSTOM FILE INPUT
+=========================== */
+.file-wrapper {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  transition: 0.3s;
+}
+
+.file-wrapper:hover {
+  border-color: var(--neon-red);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.file-input {
+  width: 100%;
+  padding: 14px 14px 14px 48px;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Style the "Choose File" button inside the input */
+.file-input::file-selector-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.file-input::file-selector-button:hover {
+  background: var(--neon-red);
+  border-color: var(--neon-red);
+}
+
+/* ===========================
+   SUBMIT BUTTON
+=========================== */
+.submit-btn {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gradient-btn-red {
+  background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+  color: white;
+  border: none;
+  box-shadow: 0 10px 25px rgba(255, 65, 108, 0.3);
+}
+
+.gradient-btn-red:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(255, 65, 108, 0.5);
+}
+
+.gradient-btn-red:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.gradient-btn-red:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+  box-shadow: none;
+}
+
+.btn-icon {
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.submit-btn:hover:not(:disabled) .btn-icon {
+  transform: translate(4px, -4px); /* Paper plane fly effect */
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 650px) {
+  .report-canvas {
+    padding: 100px 16px 60px;
+  }
+  
+  .report-card {
+    padding: 40px 25px;
+    border-radius: 24px;
+  }
+  
+  .report-header h1 {
+    font-size: 28px;
+  }
+  
+  /* Stack the grid columns on mobile */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
 }

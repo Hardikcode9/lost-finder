@@ -1,191 +1,324 @@
-.profile-page{
-
-    min-height:100vh;
-
-    background:#f1f5f9;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:40px 20px;
-
+/* ===========================
+   ROOT VARIABLES (Profile Theme)
+=========================== */
+:root {
+  --neon-purple: #8b5cf6;
+  --neon-pink: #fa709a;
+  --neon-cyan: #00f2fe;
+  --dark-bg: #0b0f19;
+  --glass-bg: rgba(15, 20, 31, 0.75);
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
 }
 
-
-
-.profile-card{
-
-    width:100%;
-
-    max-width:600px;
-
-    background:white;
-
-    border-radius:15px;
-
-    padding:35px;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.1);
-
+/* ===========================
+   FULL SCREEN CANVAS
+=========================== */
+.profile-canvas {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden;
+  /* Top padding clears fixed Navbar */
+  padding: 120px 24px 80px; 
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-main);
 }
 
-
-
-.profile-header{
-
-    text-align:center;
-
-    margin-bottom:30px;
-
+/* Background Glowing Orbs */
+.profile-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  animation: floatOrb 15s infinite alternate ease-in-out;
 }
 
-
-
-.profile-avatar{
-
-    width:90px;
-
-    height:90px;
-
-    margin:auto;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#2563eb;
-
-    border-radius:50%;
-
-    font-size:45px;
-
+.orb-purple {
+  width: 500px;
+  height: 500px;
+  background: rgba(139, 92, 246, 0.2);
+  top: -5%;
+  left: -5%;
 }
 
-
-
-.profile-header h1{
-
-    color:#1e3a8a;
-
-    margin-top:15px;
-
+.orb-pink {
+  width: 450px;
+  height: 450px;
+  background: rgba(250, 112, 154, 0.15);
+  bottom: -10%;
+  right: -5%;
+  animation-delay: -5s;
 }
 
-
-
-.profile-header p{
-
-    color:#666;
-
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 80px) scale(1.1); }
+  100% { transform: translate(-30px, 40px) scale(0.9); }
 }
 
-
-
-.profile-details{
-
-    display:flex;
-
-    flex-direction:column;
-
+/* ===========================
+   GLASSMORPHISM CARD
+=========================== */
+.profile-card {
+  width: 100%;
+  max-width: 700px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 50px 45px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+  z-index: 10;
 }
 
-
-
-.profile-details label{
-
-    margin-top:12px;
-
-    font-weight:600;
-
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-
-
-.profile-details input{
-
-    padding:12px;
-
-    margin-top:5px;
-
-    border:1px solid #ccc;
-
-    border-radius:8px;
-
-    font-size:16px;
-
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
-
-
-.profile-details input:disabled{
-
-    background:#f3f4f6;
-
+/* ===========================
+   HEADER & AVATAR
+=========================== */
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-
-
-.profile-buttons{
-
-    margin-top:30px;
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:15px;
-
+.avatar-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
-
-.profile-buttons button,
-
-.profile-buttons a{
-
-    padding:12px 20px;
-
-    border-radius:8px;
-
-    border:none;
-
-    text-decoration:none;
-
-    font-size:16px;
-
-    cursor:pointer;
-
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  color: white;
+  z-index: 2;
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
 }
 
-
-
-.profile-buttons button{
-
-    background:#2563eb;
-
-    color:white;
-
+.avatar-ring {
+  position: absolute;
+  top: -10px; left: -10px; right: -10px; bottom: -10px;
+  border: 2px dashed rgba(250, 112, 154, 0.4);
+  border-radius: 50%;
+  animation: spin 15s linear infinite;
+  z-index: 1;
 }
 
-
-
-.profile-buttons button:hover{
-
-    background:#1d4ed8;
-
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }
 
+.profile-header h1 {
+  font-size: 32px;
+  color: var(--text-main);
+  font-weight: 800;
+  margin-bottom: 5px;
+}
 
+.neon-text-purple {
+  background: linear-gradient(to right, var(--neon-purple), var(--neon-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 13px;
+}
 
-.profile-buttons a{
+/* ===========================
+   FORM & INPUTS
+=========================== */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-    background:#16a34a;
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
 
-    color:white;
+.input-group label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 18px;
+  color: var(--text-muted);
+  font-size: 16px;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+/* Base input styling (Disabled state by default) */
+.profile-form input {
+  width: 100%;
+  padding: 16px 20px 16px 48px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  color: var(--text-muted);
+  font-size: 15px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* When Edit Mode is Active */
+.profile-form input.editable {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.profile-form input.editable ~ .input-icon {
+  color: var(--neon-purple);
+}
+
+.profile-form input.editable:focus {
+  outline: none;
+  border-color: var(--neon-pink);
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 20px rgba(250, 112, 154, 0.15);
+}
+
+.input-wrapper:focus-within .input-icon {
+  color: var(--neon-pink) !important;
+  transform: scale(1.1);
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+.profile-buttons {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Save/Edit Button */
+.gradient-btn-purple {
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+  color: white;
+  border: none;
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+}
+
+.gradient-btn-purple:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
+}
+
+.gradient-btn-purple:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.gradient-btn-purple:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+/* My Reports Outline Button */
+.neon-outline-btn {
+  background: rgba(0, 242, 254, 0.05);
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.neon-outline-btn:hover {
+  background: var(--neon-cyan);
+  color: var(--dark-bg);
+  box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.btn-icon {
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.action-btn:hover:not(:disabled) .btn-icon {
+  transform: translateX(4px);
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 650px) {
+  .profile-canvas {
+    padding: 100px 16px 60px;
+  }
+  
+  .profile-card {
+    padding: 40px 25px;
+    border-radius: 24px;
+  }
+  
+  /* Stack the grid columns on mobile */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+  }
 }

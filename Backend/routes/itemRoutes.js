@@ -22,6 +22,8 @@ const upload = require("../middleware/upload");
 // GET /api/items
 router.get("/", getAllItems);
 
+router.get("/my-items", protect, getMyItems);
+
 // Get Single Item
 // GET /api/items/:id
 router.get("/:id", getSingleItem);
@@ -34,9 +36,6 @@ router.get("/:id", getSingleItem);
 // POST /api/items
 router.post("/", protect, upload.single("image"), createItem);
 
-// Get Logged-in User's Reports
-// GET /api/items/my-items
-router.get("/my-items", protect, getMyItems);
 
 // Update Item
 // PUT /api/items/:id

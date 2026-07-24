@@ -1,133 +1,248 @@
+import api from "../services/api";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { 
+  FaBoxOpen, 
+  FaTags, 
+  FaCalendarAlt, 
+  FaMapMarkerAlt, 
+  FaAlignLeft, 
+  FaCamera, 
+  FaPaperPlane 
+} from "react-icons/fa";
 import "../styles/ReportLost.css";
 
 function ReportLost() {
-  const [formData, setFormData] = useState({
-    title: "",
-    category: "",
-    description: "",
-    location: "",
-    date: "",
-    contact: "",
-    image: null,
-  });
+const navigate = useNavigate();
+const [formData, setFormData] = useState({
+  title: "",
+  category: "Bag",
+  date: "",
+  location: "",
+  description: "",
+  contact: "",
+  image: null,
+});
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
     setFormData({
       ...formData,
       [name]: files ? files[0] : value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    console.log(formData);
+  try {
+    const token = localStorage.getItem("token");
 
-    alert("Lost Item Report Submitted Successfully!");
+    const data = new FormData();
 
-    setFormData({
-      title: "",
-      category: "",
-      description: "",
-      location: "",
-      date: "",
-      contact: "",
-      image: null,
-    });
-  };
+    data.append("title", formData.title);
+    data.append("description", formData.description);
+    data.append("category", formData.category);
+    data.append("type", "Lost");
+    data.append("location", formData.location);
+    data.append("date", formData.date);
+    data.append("contact", formData.contact);
+
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
+      const response = await api.post(
+        "/items",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    if (response.data.success) {
+      alert("Lost Item Reported Successfully 🎉");
+
+      setFormData({
+        title: "",
+        category: "Bag",
+        date: "",
+        location: "",
+        description: "",
+        contact: "",
+        image: null,
+      });
+
+      navigate("/lost-items");
+    }
+  } catch (error) {
+    console.log(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Something went wrong."
+    );
+  }
+
+  setLoading(false);
+};
 
   return (
-    <div className="report-lost">
-      <div className="report-card">
-        <h1>Report Lost Item</h1>
-        <p>
-          Fill in the details below to report your lost item.
-        </p>
+    <div className="report-canvas">
+      {/* Animated Background Orbs (Red/Orange for Lost Theme) */}
+      <div className="report-orb orb-red"></div>
+      <div className="report-orb orb-orange"></div>
 
-        <form onSubmit={handleSubmit}>
+      <div className="report-card glass-panel fade-up">
+        
+        <div className="report-header">
+          <h1>
+            Report <span className="neon-text-red">Lost Item</span>
+          </h1>
+          <p>Provide the details of what you lost to alert the campus network.</p>
+        </div>
 
-          <label>Item Name</label>
-          <input
-            type="text"
-            name="title"
-            placeholder="Enter item name"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
+        <form onSubmit={handleSubmit} className="report-form">
+          
+          {/* Item Name */}
+          <div className="input-group">
+            <label>Item Name</label>
+            <div className="input-wrapper">
+              <FaBoxOpen className="input-icon" />
+              <input
+                type="text"
+                name="title"
+                placeholder="e.g. Blue Nike Backpack"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
 
-          <label>Category</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
+          {/* 2-Column Grid */}
+          <div className="form-row">
+            <div className="input-group">
+              <label>Category</label>
+              <div className="input-wrapper">
+                <FaTags className="input-icon" />
+                <select 
+                  name="category" 
+                  value={formData.category} 
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="Bag">Bag</option>
+                  <option value="Laptop">Laptop</option>
+                  <option value="Mobile">Mobile</option>
+                  <option value="Wallet">Wallet</option>
+                  <option value="Keys">Keys</option>
+                  <option value="ID Card">ID Card</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Books">Books</option>
+                  <option value="Bottle">Bottle</option>
+                  <option value="Clothes">Clothes</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="input-group">
+              <label>Date Lost</label>
+              <div className="input-wrapper">
+                <FaCalendarAlt className="input-icon" />
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Location */}
+          <div className="input-group">
+            <label>Last Seen Location</label>
+            <div className="input-wrapper">
+              <FaMapMarkerAlt className="input-icon" />
+              <input
+                type="text"
+                name="location"
+                placeholder="e.g. 2nd Floor Central Library"
+                value={formData.location}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="input-group">
+            <label>Detailed Description</label>
+            <div className="input-wrapper textarea-wrapper">
+              <FaAlignLeft className="input-icon textarea-icon" />
+              <textarea
+                name="description"
+                placeholder="Describe any unique features, colors, or contents..."
+                rows="4"
+                value={formData.description}
+                onChange={handleChange}
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div className="input-group">
+            <label>Contact Number</label>
+
+            <div className="input-wrapper">
+              <input
+                type="text"
+                name="contact"
+                placeholder="Enter contact number"
+                value={formData.contact}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Image Upload */}
+          <div className="input-group">
+            <label>Upload Image (Optional)</label>
+            <div className="input-wrapper file-wrapper">
+              <FaCamera className="input-icon" />
+              <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="file-input"
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button 
+            type="submit" 
+            className="submit-btn gradient-btn-red"
+            disabled={loading}
           >
-            <option value="">Select Category</option>
-            <option>Mobile</option>
-            <option>Laptop</option>
-            <option>Bag</option>
-            <option>Books</option>
-            <option>ID Card</option>
-            <option>Wallet</option>
-            <option>Keys</option>
-            <option>Bottle</option>
-            <option>Clothes</option>
-            <option>Others</option>
-          </select>
-
-          <label>Description</label>
-          <textarea
-            name="description"
-            rows="4"
-            placeholder="Describe your item..."
-            value={formData.description}
-            onChange={handleChange}
-            required
-          ></textarea>
-
-          <label>Lost Location</label>
-          <input
-            type="text"
-            name="location"
-            placeholder="Where did you lose it?"
-            value={formData.location}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Date Lost</label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Contact Number</label>
-          <input
-            type="tel"
-            name="contact"
-            placeholder="Enter contact number"
-            value={formData.contact}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Upload Item Image</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleChange}
-          />
-
-          <button type="submit">
-            Submit Report
+            {loading ? (
+              <span className="loading-text">Broadcasting...</span>
+            ) : (
+              <>
+                <span>Submit Report</span>
+                <FaPaperPlane className="btn-icon" />
+              </>
+            )}
           </button>
 
         </form>

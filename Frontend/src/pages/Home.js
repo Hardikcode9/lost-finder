@@ -1,113 +1,276 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import "../styles/Home.css"; 
+import api from "../services/api";
+import {
+  FaSearch,
+  FaLaptop,
+  FaKey,
+  FaWallet,
+  FaBook,
+  FaShoppingBag,
+  FaIdCard,
+  FaWineBottle,
+  FaBoxOpen,
+  FaArrowRight,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaCompass,
+  FaTimes,
+  FaBell
+} from "react-icons/fa";
+import "../styles/Home.css";
 
 function Home() {
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
-  // The categories you requested
   const categories = [
-    "All", "Watch", "Laptop", "Bag", "Books", 
-    "ID Cards", "Keys", "Wallet", "Electronics", 
-    "Clothes", "Bottle", "Others"
+    "All", "Watch", "Laptop", "Bag", "Books", "ID Cards", 
+    "Keys", "Wallet", "Electronics", "Clothes", "Bottle", "Others",
   ];
 
-  // Dummy Data to showcase the layout
-  const [recentItems] = useState([
-    { id: 1, title: "Apple MacBook Pro", category: "Laptop", location: "Library Floor 2", date: "Oct 24, 2026", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80" },
-    { id: 2, title: "Casio Analog Watch", category: "Watch", location: "Cafeteria", date: "Oct 23, 2026", image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=400&q=80" },
-    { id: 3, title: "Black Nike Backpack", category: "Bag", location: "Computer Lab 4", date: "Oct 22, 2026", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80" },
-    { id: 4, title: "Student ID Card", category: "ID Cards", location: "Main Gate", date: "Oct 21, 2026", image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=400&q=80" },
-  ]);
+  const categoryIcons = {
+    Watch: "⌚", Laptop: <FaLaptop />, Bag: <FaShoppingBag />,
+    Books: <FaBook />, "ID Cards": <FaIdCard />, Keys: <FaKey />,
+    Wallet: <FaWallet />, Electronics: "💻", Clothes: "👕",
+    Bottle: <FaWineBottle />, Others: <FaBoxOpen />,
+  };
+
+  const [recentItems, setRecentItems] = useState([]);
+
+  const [stats, setStats] = useState({
+    found: 0,
+    lost: 0,
+  });
 
   useEffect(() => {
+    setIsLoaded(true);
     const userData = localStorage.getItem("user");
     if (userData) {
       setUser(JSON.parse(userData));
     }
+    fetchHomeData();
+    // Trigger the popup shortly after loading
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 800);
+    return () => clearTimeout(timer);
   }, []);
 
-  // Filter Logic: Checks both the search bar AND the category pills
-  const filteredItems = recentItems.filter(item => {
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  }, []);
+
+  const fetchHomeData = async () => {
+  try {
+    const response = await api.get("/items");
+
+    if (response.data.success) {
+      const items = response.data.items;
+
+      setRecentItems(items.slice(0, 6));
+
+      setStats({
+        found: items.filter((item) => item.type === "Found").length,
+        lost: items.filter((item) => item.type === "Lost").length,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  const filteredItems = recentItems.filter((item) => {
     const matchesCategory = activeCategory === "All" || item.category === activeCategory;
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           item.location.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  return (
-    <div className="home-container">
-      
-      {/* 1. Hero & Search Section */}
-      <div className="home-header">
-        <h1 className="page-title">
-          {user ? `Welcome back, ${user.name}! 👋` : "Welcome to LostFinder! 👋"}
-        </h1>
-        <p className="home-subtitle">Find what you lost, return what you found.</p>
-        
-        <div className="search-bar-container">
-          <span className="search-icon">🔍</span>
-          <input 
-            type="text" 
-            className="search-input" 
-            placeholder="Search for laptops, keys, library..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-      </div>
+const dashboardStats = [
+  {
+    title: "Found Items",
+    value: stats.found,
+    icon: "📦",
+  },
+  {
+    title: "Lost Items",
+    value: stats.lost,
+    icon: "🔍",
+  },
+  {
+    title: "Welcome",
+    value: user ? user.name : "Guest",
+    icon: "👋",
+  },
+];
 
-      <div className="container">
-        {/* 2. Browse By Category */}
-        <div className="category-section">
-          <h2>Browse By Category</h2>
+  return (
+    <div className="app-canvas">
+      {/* --- ANIMATED BACKGROUND ORBS --- */}
+      <div className="ambient-orb orb-1"></div>
+      <div className="ambient-orb orb-2"></div>
+      <div className="ambient-orb orb-3"></div>
+
+      {/* --- WELCOME POPUP MODAL --- */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content glass-panel">
+            <button className="close-popup" onClick={() => setShowPopup(false)}>
+              <FaTimes />
+            </button>
+            <div className="popup-icon"><FaBell /></div>
+            <h2>Welcome to Campus Finder! 🎉</h2>
+            <p>Your immersive, fully animated dashboard is ready. Find lost items instantly with smart tracking.</p>
+            <button className="popup-btn gradient-btn" onClick={() => setShowPopup(false)}>
+              Let's Explore
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className={`home-page ${isLoaded ? "loaded" : ""}`}>
+        
+        {/* --- HERO SECTION --- */}
+        <section className="dashboard-hero slide-down glass-panel">
+          <div className="hero-left">
+            <span className="welcome-badge">
+              <span className="pulsing-dot"></span>
+              {greeting}
+            </span>
+            <h1>
+              {user ? user.name : "Guest"} <span className="wave-emoji">👋</span>
+            </h1>
+            <p className="hero-subtitle">
+              Search and recover lost belongings across your campus in seconds.
+            </p>
+
+            <div className="search-bar-container">
+              <FaSearch className="search-icon" />
+              <input
+                className="search-input"
+                placeholder="Search items or locations..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button className="clear-search" onClick={() => setSearchQuery('')}>
+                  &times;
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="hero-right">
+            {dashboardStats.map((stat, index) => (
+              <div 
+                className="stat-card glass-panel" 
+                key={stat.title}
+                style={{ "--delay": `${index * 0.15}s` }}
+              >
+                <div className="stat-icon-wrapper">
+                  <span className="stat-icon">{stat.icon}</span>
+                </div>
+                <div className="stat-text">
+                  <h2>{stat.value}</h2>
+                  <p>{stat.title}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- CATEGORIES SECTION --- */}
+        <section className="category-section fade-up">
+          <div className="section-header">
+            <h2><FaCompass className="header-icon" /> Browse Categories</h2>
+          </div>
+
           <div className="category-pills">
-            {categories.map(cat => (
-              <button 
-                key={cat} 
-                className={`category-pill ${activeCategory === cat ? 'active' : ''}`}
+            {categories.map((cat, index) => (
+              <button
+                key={cat}
+                style={{ "--delay": `${index * 0.05}s` }}
+                className={`category-pill glass-panel ${activeCategory === cat ? "active" : ""}`}
                 onClick={() => setActiveCategory(cat)}
               >
+                <span className="category-icon">
+                  {cat === "All" ? "✨" : categoryIcons[cat]}
+                </span>
                 {cat}
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* 3. Recent Found Items Grid */}
-        <div className="recent-items-section">
-          <h2>Recently Found Items</h2>
-          
-          {filteredItems.length > 0 ? (
+        {/* --- RECENT ITEMS SECTION --- */}
+        <section className="recent-items-section">
+          <div className="section-header fade-up">
+            <h2><span className="neon-text">Recently Found</span></h2>
+            <span className="results-count glass-panel">{filteredItems.length} Results</span>
+          </div>
+
+          {filteredItems.length === 0 ? (
+            <div className="empty-message glass-panel fade-up">
+              <div className="empty-icon">🔍</div>
+              <h3>No items found</h3>
+              <p>We couldn't find anything matching your search criteria.</p>
+              <button className="gradient-btn" onClick={() => {
+                  setSearchQuery(""); setActiveCategory("All");
+              }}>
+                  Reset Filters
+              </button>
+            </div>
+          ) : (
             <div className="card-grid">
-              {filteredItems.map(item => (
-                <div className="common-card item-card" key={item.id}>
-                  <div className="card-image-wrapper">
-                    <img src={item.image} alt={item.title} />
-                    <span className="card-badge">Found</span>
+              {filteredItems.map((item, index) => (
+                <div
+                  className="item-card glass-panel fade-up-stagger"
+                  key={item._id}
+                  style={{ "--delay": `${index * 0.1}s` }}
+                >
+                  <div className="card-image">
+                    <img
+                      src={
+                        item.image
+                          ? `http://192.168.0.100:5000/uploads/${item.image}`
+                          : "/no-image.png"
+                      }
+                      alt={item.title}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = "/no-image.png";
+                      }}
+                    />
+                    <span className="badge glass-badge">Found</span>
                   </div>
-                  <div className="card-content">
+
+                  <div className="card-body">
+                    <span className="category-label">{item.category}</span>
                     <h3>{item.title}</h3>
-                    <p className="card-location">📍 {item.location}</p>
-                    <p className="card-date">📅 {item.date}</p>
-                    {/* Using your existing primary-btn class from App.css */}
-                    <Link to={`/item/${item.id}`} className="primary-btn view-btn">
-                      View Details
+
+                    <div className="card-info">
+                      <p><span className="info-icon-box"><FaMapMarkerAlt /></span> {item.location}</p>
+                      <p><span className="info-icon-box"><FaCalendarAlt /></span> {new Date(item.date).toLocaleDateString()}</p>
+                    </div>
+
+                    <Link to={`/item/${item._id}`} className="details-btn gradient-btn">
+                      <span>View Details</span>
+                      <FaArrowRight className="btn-arrow" />
                     </Link>
                   </div>
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="empty-message">
-              No items found matching your search.
-            </div>
           )}
-        </div>
+        </section>
       </div>
-
     </div>
   );
 }

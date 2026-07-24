@@ -1,24 +1,356 @@
-.found-page{
-    min-height:100vh;
-    background:#f8fafc;
-    padding:40px;
+/* ===========================
+   ROOT VARIABLES & CANVAS (Found Theme)
+=========================== */
+:root {
+  --neon-green: #10b981;
+  --neon-cyan: #00f2fe;
+  --dark-bg: #0b0f19;
+  --glass-bg: rgba(15, 20, 31, 0.75);
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
 }
 
-.found-page h1{
-    text-align:center;
-    color:#1e40af;
-    font-size:40px;
-    margin-bottom:30px;
+.found-canvas {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden;
+  /* Top padding ensures it clears your fixed Navbar */
+  padding: 120px 24px 80px;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-main);
 }
 
-.found-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:25px;
-    justify-items:center;
-    margin-top:40px;
+/* Background Glowing Orbs */
+.found-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  animation: floatOrb 15s infinite alternate ease-in-out;
 }
 
-.found-grid h3{
-    color:#555;
+.orb-green {
+  width: 500px;
+  height: 500px;
+  background: rgba(16, 185, 129, 0.15); /* Soft premium green */
+  top: -10%;
+  left: -10%;
+}
+
+.orb-cyan {
+  width: 400px;
+  height: 400px;
+  background: rgba(0, 242, 254, 0.12); /* Soft premium cyan */
+  bottom: 10%;
+  right: -5%;
+  animation-delay: -5s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, 80px) scale(1.2); }
+  100% { transform: translate(-30px, 40px) scale(0.9); }
+}
+
+.found-page-content {
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* ===========================
+   REUSABLE ANIMATIONS & GLASS
+=========================== */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+.fade-up-stagger {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ===========================
+   HEADER
+=========================== */
+.found-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.found-header h1 {
+  font-size: 46px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.header-icon {
+  color: var(--neon-green);
+  animation: floatOrb 4s infinite alternate ease-in-out;
+}
+
+.neon-text-green {
+  background: linear-gradient(to right, var(--neon-green), var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.found-header p {
+  color: var(--text-muted);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ===========================
+   SEARCH BAR
+=========================== */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  transition: 0.3s;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+  transform: translateY(-2px);
+}
+
+.search-icon {
+  position: absolute;
+  left: 25px;
+  color: var(--neon-green);
+  font-size: 18px;
+}
+
+.search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 18px 50px 18px 55px;
+  color: white;
+  font-size: 16px;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.clear-search {
+  position: absolute;
+  right: 20px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.clear-search:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.1);
+}
+
+/* ===========================
+   EXTREME 3D CARDS (Found Theme)
+=========================== */
+.found-grid {
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 35px; 
+  perspective: 1500px; 
+}
+
+.item-card {
+  border-radius: 24px; 
+  padding: 0; 
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+  display: flex; 
+  flex-direction: column;
+  background: rgba(15, 20, 31, 0.95); 
+}
+
+/* 3D Glass Shine Effect */
+.item-card::after {
+  content: ''; position: absolute; top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+  transform: skewX(-25deg); transition: 0.8s; pointer-events: none; z-index: 10;
+}
+
+.item-card:hover {
+  transform: translateY(-15px) rotateX(4deg) rotateY(-4deg);
+  border-color: var(--neon-green);
+  box-shadow: -10px 20px 40px rgba(16, 185, 129, 0.15), 0 0 20px rgba(0, 242, 254, 0.1);
+}
+
+.item-card:hover::after { left: 125%; }
+
+.card-image { 
+  position: relative; 
+  height: 220px; 
+  overflow: hidden; 
+  background: #000;
+}
+
+.card-image::before {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; width: 100%; height: 60%;
+  background: linear-gradient(to top, rgba(15, 20, 31, 0.95), transparent);
+  z-index: 1; pointer-events: none;
+}
+
+.card-image img { 
+  width: 100%; height: 100%; 
+  object-fit: cover; transition: 0.7s; 
+  opacity: 0.85; 
+}
+
+.item-card:hover .card-image img { 
+  transform: scale(1.15) rotate(2deg); 
+  opacity: 1; 
+}
+
+/* Green "Found" Badge */
+.badge-found {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(16, 185, 129, 0.2); 
+  border: 1px solid rgba(16, 185, 129, 0.6);
+  color: #6ee7b7; padding: 6px 16px; border-radius: 30px;
+  font-size: 12px; font-weight: 800; text-transform: uppercase;
+  backdrop-filter: blur(10px); 
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  z-index: 2;
+  letter-spacing: 0.5px;
+}
+
+.card-body { 
+  padding: 25px; display: flex; flex-direction: column; flex: 1; 
+  position: relative; z-index: 2; 
+}
+
+.category-label {
+  align-self: flex-start; padding: 6px 14px; border-radius: 30px;
+  background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #6ee7b7; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; margin-bottom: 15px;
+}
+
+.card-body h3 { 
+  font-size: 22px; margin-bottom: 15px; font-weight: 700; 
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.card-info { 
+  display: flex; flex-direction: column; gap: 12px; 
+  color: #cbd5e1; font-size: 14px; margin-bottom: 25px; 
+}
+
+.card-info p { display: flex; align-items: center; gap: 12px; }
+
+.info-icon-box {
+  width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: center; color: var(--neon-cyan);
+}
+
+/* Gradient Green Button */
+.gradient-btn-green {
+  margin-top: auto; display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 24px; border-radius: 16px; width: 100%;
+  background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+  color: white; border: none; font-weight: 700; font-size: 15px;
+  cursor: pointer; text-decoration: none;
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+  transition: 0.4s;
+}
+
+.gradient-btn-green:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+}
+
+.btn-arrow { transition: 0.3s; }
+.gradient-btn-green:hover .btn-arrow { transform: translateX(6px); }
+
+/* ===========================
+   EMPTY STATE
+=========================== */
+.empty-message {
+  grid-column: 1 / -1; 
+  padding: 80px 40px; 
+  text-align: center; 
+  border-radius: 30px; 
+  border: 1px dashed var(--neon-green);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-icon {
+  font-size: 60px; color: var(--text-muted); margin-bottom: 20px;
+  animation: floatOrb 3s infinite alternate;
+}
+
+.empty-message h3 { font-size: 24px; margin-bottom: 10px; }
+.empty-message p { color: var(--text-muted); margin-bottom: 25px; }
+
+.clear-btn {
+  justify-content: center;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+  .found-canvas { padding: 100px 16px 60px; }
+  .found-header h1 { font-size: 32px; }
+  .search-input { font-size: 14px; padding: 16px 40px 16px 50px; }
+  .found-grid { gap: 25px; }
 }
