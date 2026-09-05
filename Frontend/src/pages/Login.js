@@ -49,7 +49,11 @@ function Login() {
       }
     } catch (error) {
       console.log(error);
-      alert("Server Error. Please try again later.");
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("Server Error. Please try again later.");
+      }
     }
 
     setLoading(false);
