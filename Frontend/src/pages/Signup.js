@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import api from "../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import { 
   FaUser, 
@@ -46,23 +47,17 @@ function Signup() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: signupData.name,
-          email: signupData.email,
-          studentId: signupData.studentId,
-          phone: signupData.phone,
-          password: signupData.password
-        }),
+      const response = await api.post("/auth/signup", {
+        name: signupData.name,
+        email: signupData.email,
+        studentId: signupData.studentId,
+        phone: signupData.phone,
+        password: signupData.password
       });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (response.ok || data.success) {
+      if (data.success) {
         alert("Account Created Successfully! 🎉");
         navigate("/login");
       } else {
@@ -70,7 +65,11 @@ function Signup() {
       }
     } catch (error) {
       console.error("Signup error:", error);
-      alert("Server Error. Make sure your backend is running!");
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("Server Error. Make sure your backend is running!");
+      }
     }
 
     setLoading(false);
