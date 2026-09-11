@@ -212,7 +212,7 @@ const dashboardStats = [
         {/* --- RECENT ITEMS SECTION --- */}
         <section className="recent-items-section">
           <div className="section-header fade-up">
-            <h2><span className="neon-text">Recently Found</span></h2>
+            <h2><span className="neon-text">Recent Items</span></h2>
             <span className="results-count glass-panel">{filteredItems.length} Results</span>
           </div>
 
@@ -239,7 +239,7 @@ const dashboardStats = [
                     <img
                       src={
                         item.image
-                          ? `http://192.168.0.100:5000/uploads/${item.image}`
+                          ? `http://localhost:5000/uploads/${item.image}`
                           : "/no-image.png"
                       }
                       alt={item.title}
@@ -248,7 +248,7 @@ const dashboardStats = [
                         e.target.src = "/no-image.png";
                       }}
                     />
-                    <span className="badge glass-badge">Found</span>
+                    <span className={`badge glass-badge ${item.type === 'Lost' ? 'lost-badge' : 'found-badge'}`}>{item.type}</span>
                   </div>
 
                   <div className="card-body">
