@@ -88,7 +88,7 @@ function LostItems() {
                 <img
                   src={
                     item.image
-                      ? `http://192.168.0.100:5000/uploads/${item.image}`
+                      ? `http://localhost:5000/uploads/${item.image}`
                       : "/no-image.png"
                   }
                   alt={item.title}
