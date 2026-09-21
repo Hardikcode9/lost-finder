@@ -145,14 +145,10 @@ function Layout() {
 }
 
 function App() {
-  const [introFinished, setIntroFinished] = useState(false);
+  const [introFinished, setIntroFinished] = useState(true);
 
 useEffect(() => {
-  const timer = setTimeout(() => {
-    setIntroFinished(true);
-  }, 3000);
-
-  return () => clearTimeout(timer);
+  // Intro screen is disabled to load instantly
 }, []);
 
 const token = localStorage.getItem("token");
